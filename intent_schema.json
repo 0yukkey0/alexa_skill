@@ -1,19 +1,19 @@
 {
-    "intents": [
+  "intents": [
+    {
+      "slots": [
         {
-        "slots": [
-            { "name": "StarSign", "type": " ListOfSign " }
-        ],
-        "intent": "HoroscopeIntent"
-        },
-        {
-            "intent": "AMAZON.HelpIntent"
-        },
-        {
-            "intent": "AMAZON.StopIntent"
-        },
-        {
-            "intent": "AMAZON.CancelIntent"
+          "name": "StarSign",
+          "type": "ListOfSign"
         }
-    ]
+      ],
+      "intent": "HoroscopeIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "SynastryIntent"
+    }
+  ]
 }

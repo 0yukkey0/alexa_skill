@@ -1,0 +1,15 @@
+HoroscopeIntent {StarSign} を 占って
+HoroscopeIntent {StarSign} の 運勢 を 教えて
+HoroscopeIntent {StarSign} の 運勢 は どう
+HoroscopeIntent {StarSign} の 運勢 は
+HoroscopeIntent {StarSign} の 運気 を 教えて
+HoroscopeIntent {StarSign} の 運気 は どう
+HoroscopeIntent {StarSign} の 運気 は
+HoroscopeIntent {StarSign}
+SynastryIntent 相性 を 占って
+SynastryIntent 相性 を 教えて
+SynastryIntent 相性 を 知りたい
+SynastryIntent 相性 は どう
+SynastryIntent 相性 が 知りたい
+SynastryIntent 相性 が 聞きたい
+SynastryIntent 相性

@@ -17,6 +17,7 @@ const synastries = [
 ];
 exports.handler = function(event, context, callback) {
   var alexa = Alexa.handler(event, context);
+  alexa.dynamoDBTableName = 'HoroscopeSkillTable'; // ユーザーの星座を保存するDynamoDBのHoroscopeSkillTableテーブルを定義
   // alexa.appId = process.env.APP_ID;
   alexa.registerHandlers(handlers, synastriesHandlers); // 既存のハンドラに加えてステートハンドラ(後半で定義)も登録
   alexa.execute();
@@ -27,7 +28,7 @@ var handlers = {
   },
   'AMAZON.HelpIntent': function () {
     this.emit(':ask', '今日の運勢を占います。' +
-                  'たとえば、うらないでふたご座の運勢を教えてと聞いてください');
+                      'たとえば、うらないでふたご座の運勢を教えてと聞いてください');
   },
   'HoroscopeIntent': function () {
     var sign = this.event.request.intent.slots.StarSign.value;
@@ -35,10 +36,27 @@ var handlers = {
     this.handler.state = states.SYNASTRYMODE; // ステートをセット
     this.attributes['sign'] = sign; // 星座をセッションアトリビュートにセット
     var message = '今日の' + sign + 'の運勢は' + fortune.description + '。' +
-                 '相性を占いますので、お相手の星座を教えてください';
+                  '相性を占いますので、お相手の星座を教えてください';
     var reprompt = 'お相手の星座を教えてください';
     this.emit(':ask', message, reprompt); // 相手の星座を聞くためにaskアクションに変更
     console.log(message);
+  },
+  'SynastryIntent': function () {
+    if (this.attributes['sign']) {
+      this.handler.state = states.SYNASTRYMODE;
+      var sign = this.attributes['sign']; // DynamoDBから読み込んだデータを参照
+      var message = 'あなたの星座は' + sign + 'ですね。' +
+                    '相性を占いますので、お相手の星座を教えてください';
+      var reprompt = 'お相手の星座を教えてください';
+      this.emit(':ask', message, reprompt);
+    } else {
+      this.emit('AMAZON.HelpIntent');
+    }
+  },
+  // スキルの中断時にもDynamoDBへのデータ保存を実行する設定
+  // https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs#making-skill-state-management-simpler
+  'SessionEndedRequest': function () {
+    this.emit(':saveState', true);
   }
 };
 // ステートハンドラの定義
